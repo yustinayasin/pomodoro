@@ -1,25 +1,122 @@
-import logo from './logo.svg';
 import './App.css';
+import React, { useState, useEffect} from 'react';
+
 
 function App() {
+  //biar bisa diclear intervalnya
+  const timerRef = React.useRef();
+
+  //minute sama seconds ga perlu dijadiin state karena turunan dari remaining time
+  const [remainingTime, setRemainingTime] = useState(30);
+  const [isPaused, setIsPaused] = useState(false);
+  const [isBreak, setIsBreak] = useState(false);
+
+
+  //useEffect sama kek componentDidMount dan componentUnmount
+  //pake array kosong as second argument biar berlaku seperti componentDidMount
+  useEffect(() => {
+    console.log('useEffect has been called!');
+    return () => clearInterval(timerRef.current);
+  }, []);
+
+  useEffect(() => {
+    if(remainingTime===0) {
+      if(isBreak) {
+        clearInterval(timerRef.current);
+        setRemainingTime(30);
+      } else {
+        clearInterval(timerRef.current);
+        setRemainingTime(20);
+      }
+      setIsBreak((isBreak) => !isBreak);
+    }
+  }, [remainingTime])
+
+
+  function timer() {
+    setRemainingTime((remainingTime) => remainingTime - 1);
+  }
+
+  const startTimer = () => {
+    clearInterval(timerRef.current);             // clear any running interval
+    //setRemainingTime(1500);                      // reset state back to 25 minutes
+    if(isBreak) {
+      if(remainingTime > 0 && remainingTime < 20) {
+        setIsPaused((isPaused) => !isPaused);
+      } else {
+        timerRef.current = setInterval(timer, 1000); // start/restart interval
+      }
+    } else {
+      if(remainingTime > 0 && remainingTime < 30) {
+        setIsPaused((isPaused) => !isPaused);
+      } else {
+        timerRef.current = setInterval(timer, 1000); // start/restart interval
+      }
+    }
+    
+  };
+
+  const stopTimer = () => {
+    clearInterval(timerRef.current);
+    setIsPaused((isPaused) => !isPaused);
+    if(isBreak) {
+      setRemainingTime(20);
+    } else {
+      setRemainingTime(30);
+    }
+  }
+
+  const continueTimer = () => {
+    clearInterval(timerRef.current);
+    setIsPaused((isPaused) => !isPaused);
+    timerRef.current = setInterval(timer, 1000);
+  }
+
+  const skipBreak = () => {
+    clearInterval(timerRef.current);
+    setRemainingTime(30);
+    setIsBreak((isBreak) => !isBreak);
+  }
+
+  function checkCondition() {
+    if(isBreak) {
+      if(remainingTime===0 || remainingTime===20) {
+        return true;
+      }
+    } else {
+      if(remainingTime===0 || remainingTime===30) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  //function padStart itu buat nambahin 0 dengan 2 digit
+  const minute = String(Math.floor(remainingTime / 60)).padStart(2, 0);
+  const seconds = String(remainingTime % 60).padStart(2, 0);
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={isBreak ? "pomodoro pomodoro-break" : "pomodoro"}>
+      <div className="timer">
+        {minute}:{seconds}
+      </div>
+      <div className="button-container">
+        {
+          isPaused 
+          ? <>
+            <button className="btn stop" onClick={stopTimer}>stop</button>
+            <button className="btn continue" onClick={continueTimer}>continue</button>
+            </>
+          : <> 
+            <button className="btn start" onClick={startTimer}>{ checkCondition() ? 'start' : 'pause'}</button>
+            {
+              isBreak && <button className="btn skip-break" onClick={skipBreak}>skip break</button>
+            }
+          </>
+         }
+      </div>
     </div>
   );
 }
-
 export default App;

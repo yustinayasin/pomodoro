@@ -1,13 +1,75 @@
-body {
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+*,
+::before,
+::after {
+  box-sizing: border-box;
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+#root {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Poppins", sans-serif;
+  background-color: #ff8b94;
+}
+
+.pomodoro {
+  width: 500px;
+  height: 500px;
+  border-radius: 300px;
+  /* background-color: rgb(245, 136, 126); */
+  background-color: #ffaaa5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px 80px;
+}
+
+.pomodoro-break {
+  background-color: #91c7cc;
+}
+
+.timer {
+  font-size: 90px;
+  color: white;
+}
+
+.button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.btn {
+  padding: 20px;
+  border-radius: 10px;
+  /* border: 1px solid rgb(153, 245, 137); */
+  border: 1px solid #9bbfab;
+  color: white;
+  /* background-color: rgb(153, 245, 137); */
+  background-color: #9bbfab;
+  /* box-shadow: 5px 5px 0 #70a867; */
+  box-shadow: 5px 5px 0 #658c7a;
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* .btn:hover {
+  transform: scale(1.1);
+  transform: translate(-5px, -10px);
+} */
+
+.btn:active {
+  /* transform: scale(1.1); */
+  transform: translate(5px, 5px);
 }
