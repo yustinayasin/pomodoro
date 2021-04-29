@@ -7,7 +7,7 @@ function App() {
   const timerRef = React.useRef();
 
   //minute sama seconds ga perlu dijadiin state karena turunan dari remaining time
-  const [remainingTime, setRemainingTime] = useState(30);
+  const [remainingTime, setRemainingTime] = useState(1500);
   const [isPaused, setIsPaused] = useState(false);
   const [isBreak, setIsBreak] = useState(false);
 
@@ -23,10 +23,10 @@ function App() {
     if(remainingTime===0) {
       if(isBreak) {
         clearInterval(timerRef.current);
-        setRemainingTime(30);
+        setRemainingTime(1500);
       } else {
         clearInterval(timerRef.current);
-        setRemainingTime(20);
+        setRemainingTime(300);
       }
       setIsBreak((isBreak) => !isBreak);
     }
@@ -41,13 +41,13 @@ function App() {
     clearInterval(timerRef.current);             // clear any running interval
     //setRemainingTime(1500);                      // reset state back to 25 minutes
     if(isBreak) {
-      if(remainingTime > 0 && remainingTime < 20) {
+      if(remainingTime > 0 && remainingTime < 300) {
         setIsPaused((isPaused) => !isPaused);
       } else {
         timerRef.current = setInterval(timer, 1000); // start/restart interval
       }
     } else {
-      if(remainingTime > 0 && remainingTime < 30) {
+      if(remainingTime > 0 && remainingTime < 1500) {
         setIsPaused((isPaused) => !isPaused);
       } else {
         timerRef.current = setInterval(timer, 1000); // start/restart interval
@@ -60,9 +60,9 @@ function App() {
     clearInterval(timerRef.current);
     setIsPaused((isPaused) => !isPaused);
     if(isBreak) {
-      setRemainingTime(20);
+      setRemainingTime(300);
     } else {
-      setRemainingTime(30);
+      setRemainingTime(1500);
     }
   }
 
@@ -74,17 +74,17 @@ function App() {
 
   const skipBreak = () => {
     clearInterval(timerRef.current);
-    setRemainingTime(30);
+    setRemainingTime(1500);
     setIsBreak((isBreak) => !isBreak);
   }
 
   function checkCondition() {
     if(isBreak) {
-      if(remainingTime===0 || remainingTime===20) {
+      if(remainingTime===0 || remainingTime===300) {
         return true;
       }
     } else {
-      if(remainingTime===0 || remainingTime===30) {
+      if(remainingTime===0 || remainingTime===1500) {
         return true;
       }
     }
